@@ -2,20 +2,28 @@ import * as React from 'react'
 import {motion} from 'framer-motion'
 
 function App() {
-  const handleClick = (e: React.MouseEvent) => console.log(e.target)
+  const [slides, setSlides] = React.useState([
+    'Page 1',
+    'Page 2',
+    'Page 3',
+    'Page 4',
+    'Page 5'
+  ])
+
+  const handleSlideClick = (i: number) => {
+    if (i == slides.length - 1) return
+    const currentSlide = slides.at(i)
+    setSlides(slides.filter(slide => slide != currentSlide))
+  }
 
   return (
     <div className="App">
-      <div className="slider" onClick={handleClick}>
-        <motion.div className="slide slide-1" whileTap={{
-          scale: 0.5
-        }}>
-          <h2>Slide 1</h2>
-        </motion.div>
-
-        <div className="slide slide-2">
-          <h2>Slide 2</h2>
-        </div>
+      <div className="slider">
+        {slides.map((slide, i) => (
+          <motion.div className="slide" onClick={() => handleSlideClick(i)} key={i} whileTap={{ scale: 0 }}>
+            <h2>{slide}</h2>
+          </motion.div>
+        ))}
       </div>
     </div>
   )
